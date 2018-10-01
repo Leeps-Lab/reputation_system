@@ -13,7 +13,7 @@ This is a 2 person buyer and seller game with reputation system. p1 (player A) i
 class Constants(BaseConstants):
     name_in_url = 'reputation_game'
     players_per_group = 2
-    num_rounds = 30
+    num_rounds = 16
 
     endowment = c(100)
     multiplier = 3
@@ -26,7 +26,7 @@ class Subsession(BaseSubsession):
         self.group_randomly(fixed_id_in_group=True)
 
     def reward_from_experimenter(self):
-        if self.round_number > 15:
+        if self.round_number > 8:
             return 1
         else:
             return 0
