@@ -1,0 +1,38 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Stage 4: Player B's feedback option
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    In the previous stage, Player A sent back {{ group.quality_amount }} to you. So you receive tripled amount {{ tripled_amount }}.
+    In this stage, you need to choose whether to leave a costly feedback so other players will have more information about Player A in the future periods.
+    The cost of leaving feedback in current period is {{ Constants.feedback_cost }}.
+    </p>
+
+    {% if subsession.reward_from_experimenter == 1 %}
+        <p>
+        The experimenter provides {{ group.reward_amount }} for your feedback. The point will be transferred to you if you decide to send your endowment and leave feedback.
+        </p>
+    {% else %}
+        <p>
+        Player A provides {{ group.reward_amount }} for your feedback. The point will be transferred to you if you decide to send your endowment and leave feedback.
+        </p>
+    {% endif %}
+
+    <p>
+    The feedback works as a 7-point likert scale. From left to right:
+    1-strongly dissatisfied, 2-dissatisfied, 3-slightly dissatisfied, 4-neutral, 5-slightly satisfied, 6-satisfied, 7-strongly satisfied.
+    If you do now want to leave the costly feedback, please still choose your level of satisfaction, though none of the players will have the chance to see it.
+    </p>
+
+    {% formfield group.feedback_choice label="Do you want to leave a costly feedback?"  %}
+
+    {% formfield group.feedback_amount label="What do you think about Player A in this period?"  %}
+
+    {% next_button %}
+
+{% endblock %}

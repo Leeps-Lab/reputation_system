@@ -1,0 +1,42 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block content %}
+    {% if player.id_in_group == 1 %}
+        <p>
+            As Player A,
+            You provide reward {{ group.reward_amount }} for feedback.
+            You receive {{ group.invest_amount }} from Player B and send back {{ group.quality_amount }} ({{ tripled_amount }} after tripled).
+            {% if group.feedback_choice == True %}
+                You receive the feedback of {{ group.feedback_amount }}.
+            {% else %}
+                Player B does not leave feedback.
+            {% endif %}
+        </p>
+    {% else %}
+        <p>
+            As Player B,
+            Player A provide reward {{ group.reward_amount }} for your feedback.
+            You send {{ group.invest_amount }} to Player A and receive {{ group.quality_amount }} ({{ tripled_amount }} after tripled) in return.
+            {% if group.feedback_choice == True %}
+                You choose to leave feedback of {{ group.feedback_amount }}.
+            {% else %}
+                You choose not to leave feedback.
+            {% endif %}
+        </p>
+
+    {% endif %}
+
+    <p>
+    Therefore, your total payoff is {{ player.payoff }} in this period. Your cumulative payoff is {{ cumulative_payoff }}.
+    </p>
+
+    {% next_button %}
+
+{% endblock %}
+
+

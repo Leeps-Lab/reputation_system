@@ -1,0 +1,49 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Stage 2: Player B's sending option
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    You are Player B. Now you have {{ Constants.endowment }}. In this stage, you need to decide whether to send your endowment to Player A.
+    In the next stage, Player A will decide how much to send back to you. For each point Player A send back, you will receive triple points.
+    </p>
+
+    <p>
+    At the end of this period, you can choose whether to leave a costly feedback. The cost of leaving feedback in current period is {{ Constants.feedback_cost }}.
+    </p>
+
+    {% if subsession.reward_from_experimenter == 1 %}
+        <p>
+        The experimenter provides {{ group.reward_amount }} for your feedback. The point will be transferred to you if you decide to send your endowment and leave feedback.
+        </p>
+    {% else %}
+        <p>
+        Player A provides {{ group.reward_amount }} for your feedback. The point will be transferred to you if you decide to send your endowment and leave feedback.
+        </p>
+    {% endif %}
+
+    {% formfield group.invest_amount label="Do you want to send your endowment to Player A?"  %}
+
+    {% if subsession.round_number > 1 %}
+        <h6>Player A's Reputation History</h6>
+        <table class="table">
+            <tr>
+                <th>Round</th>
+                <th>Reputation</th>
+            </tr>
+            {% for p in partner_in_previous_rounds %}
+                <tr>
+                    <td>{{ p.round_number }}</td>
+                    <td>{{ p.current_reputation }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

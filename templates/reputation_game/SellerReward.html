@@ -1,0 +1,54 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Stage 1: Player A's reward option
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    You are Player A. Now you have {{ Constants.endowment }}. Your initial endowment will not be affected during the game.
+    Before Player B decides whether to send her endowment to you, you need to decide whether you offer the reward for feedback to Player B.
+    </p>
+
+    <p>
+    The amount of possible reward in current period is {{ Constants.reward }}. Player B will know the amount of reward you choose before she makes her decision.
+    Player B can leave a costly feedback at the end of the period indicating your performance in this period. The cost of leaving feedback in current period is {{ Constants.feedback_cost }}.
+    </p>
+
+    {% if subsession.reward_from_experimenter == 1 %}
+        <p>
+        If you decide to offer the reward, Player B will receive your transfer if she decides to send her endowment to you and leave feedback.
+        However, Player B will receive the message "The reward is from the experimenter". She will not know you are paying for the reward.
+        Similarly, if you choose not to offer reward, Player B will receive the message "There is no reward for feedback from the experimenter".
+        </p>
+    {% else %}
+        <p>
+        If you decide to offer the reward, Player B will receive your transfer if she decides to send her endowment to you and leave feedback.
+        Player B will receive the message "The reward is from Player A".
+        Similarly, if you choose not to offer reward, Player B will receive the message "There is no reward for feedback from Player A".
+        </p>
+    {% endif %}
+
+    {% formfield group.reward_amount label="Do you want to offer reward for feedback to Player B?"  %}
+
+    {% if subsession.round_number > 1 %}
+        <h6>Your Reputation History</h6>
+        <table class="table">
+            <tr>
+                <th>Round</th>
+                <th>Reputation</th>
+            </tr>
+            {% for p in player_in_previous_rounds %}
+                <tr>
+                    <td>{{ p.round_number }}</td>
+                    <td>{{ p.current_reputation }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    {% next_button %}
+
+{% endblock %}

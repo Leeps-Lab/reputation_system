@@ -1,0 +1,33 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Stage 3: Player A's sending back option
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    In the previous stage, Player B sent {{ group.invest_amount }} to you.
+    In this stage, you need to decide how much you want to send back to Player B. For each point you send back, Player B will receive triple points.
+    </p>
+
+    <p>
+    Player B can leave a costly feedback at the end of the period indicating your performance in this period. The cost of leaving feedback in current period is {{ Constants.feedback_cost }}.
+    </p>
+
+    {% if subsession.reward_from_experimenter == 1 %}
+        <p>
+        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. However, Player B believes that the reward option is decided by the experimenter.
+        </p>
+    {% else %}
+        <p>
+        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. Player B knows that the reward option is decided by you.
+        </p>
+    {% endif %}
+
+    {% formfield group.quality_amount label="How much points do you want to send back to Player B?"  %}
+
+    {% next_button %}
+
+{% endblock %}
