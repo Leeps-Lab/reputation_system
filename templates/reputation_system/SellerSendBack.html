@@ -18,11 +18,11 @@
 
     {% if subsession.reward_from_experimenter == 1 %}
         <p>
-        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. However, Player B believes that the reward option is decided by the experimenter.
+        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. <b> However, Player B believes that the reward option is decided by the experimenter. </b>
         </p>
     {% else %}
         <p>
-        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. Player B knows that the reward option is decided by you.
+        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. <b> Player B knows that the reward option is decided by you. </b>
         </p>
     {% endif %}
 
