@@ -54,9 +54,6 @@ class Group(BaseGroup):
     def num_rounds(self):
         return len(parse_config(self.session.config['config_file']))
 
-    def current_reward(self):
-        return self.subsession.reward()
-
     reward_amount = models.IntegerField()
 
     invest_amount = models.IntegerField(
