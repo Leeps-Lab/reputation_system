@@ -21,7 +21,7 @@ class SellerReward(Page):
     def vars_for_template(self):
         return {
             'player_in_previous_rounds': self.player.in_previous_rounds(),
-            'player_in_block': self.player.in_rounds(1+10*(self.subsession.block()-1), self.round_number),
+            'player_in_block': self.player.in_rounds(1 + Constants.round_in_block*(self.subsession.block()-1), self.round_number),
         }
 
     def reward_amount_choices(self):
@@ -40,7 +40,7 @@ class BuyerSend(Page):
     def vars_for_template(self):
         return {
             'partner_in_previous_rounds': self.player.get_partner().in_previous_rounds(),
-            'partner_in_block': self.player.get_partner().in_rounds(1+10*(self.subsession.block()-1), self.round_number),
+            'partner_in_block': self.player.get_partner().in_rounds(1 + Constants.round_in_block*(self.subsession.block()-1), self.round_number),
         }
 
 

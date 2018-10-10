@@ -18,6 +18,7 @@ class Constants(BaseConstants):
     num_rounds = 40
     endowment = 100
     multiplier = 3
+    round_in_block = 10
 
 
 def parse_config(config_file):
