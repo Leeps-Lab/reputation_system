@@ -12,7 +12,7 @@ class PlayerBot(Bot):
             yield (pages.WelcomePage)
 
         if self.player.id_in_group == 1:
-            yield Submission(pages.SellerReward, {'reward_amount': random.choice([c(0), Constants.reward])}, timeout_happened=True)
+            yield Submission(pages.SellerReward, {'reward_amount': random.choice([0, self.subsession.reward()])}, timeout_happened=True)
             yield Submission(pages.SellerSendBack, {'quality_amount': random.randint(0, self.group.invest_amount)}, timeout_happened=True)
         else:
             yield Submission(pages.BuyerSend, {'invest_amount': Constants.endowment}, timeout_happened=True)
@@ -21,7 +21,7 @@ class PlayerBot(Bot):
         yield Submission(pages.ResultsSend, timeout_happened=True)
 
         if self.player.id_in_group == 1:
-            if self.group.invest_amount == c(0):
+            if self.group.invest_amount == 0:
                 p1_expected_payoff = Constants.endowment
             elif self.group.feedback_choice == False:
                 p1_expected_payoff = Constants.endowment + self.group.invest_amount - self.group.quality_amount
@@ -36,12 +36,12 @@ class PlayerBot(Bot):
             assert self.player.current_reputation == p1_expected_reputation
 
         else:
-            if self.group.invest_amount == c(0):
+            if self.group.invest_amount == 0:
                 p2_expected_payoff = Constants.endowment
             elif self.group.feedback_choice == False:
                 p2_expected_payoff = Constants.endowment - self.group.invest_amount + self.group.quality_amount * Constants.multiplier
             else:
-                p2_expected_payoff = Constants.endowment - self.group.invest_amount + self.group.quality_amount * Constants.multiplier - Constants.feedback_cost + self.group.reward_amount
+                p2_expected_payoff = Constants.endowment - self.group.invest_amount + self.group.quality_amount * Constants.multiplier - self.subsession.feedback_cost() + self.group.reward_amount
             assert self.player.payoff == p2_expected_payoff
 
             if self.group.feedback_choice == True:

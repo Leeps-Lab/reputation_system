@@ -3,6 +3,7 @@ from otree.api import (
     Currency as c, currency_range
 )
 from otree.models import subsession
+import csv
 
 author = 'Shuchen Zhao'
 doc = """
@@ -11,45 +12,62 @@ This is a 2 person buyer and seller game with reputation system. p1 (player A) i
 
 
 class Constants(BaseConstants):
+
     name_in_url = 'reputation_game'
     players_per_group = 2
-    num_rounds = 16
-
-    endowment = c(100)
+    num_rounds = 40
+    endowment = 100
     multiplier = 3
-    feedback_cost = c(10)
-    reward = c(5)
+
+
+def parse_config(config_file):
+    with open('reputation_system/configs/' + config_file) as f:
+        rows = list(csv.DictReader(f))
+
+    rounds = []
+    for row in rows:
+        rounds.append({
+            'reward_from_experimenter': int(row['reward_from_experimenter']),
+            'feedback_cost': int(row['feedback_cost']),
+            'reward': int(row['reward'])
+        })
+    return rounds
 
 
 class Subsession(BaseSubsession):
+
     def creating_session(self):
         self.group_randomly(fixed_id_in_group=True)
 
     def reward_from_experimenter(self):
-        if self.round_number > 8:
-            return 1
-        else:
-            return 0
+        return parse_config(self.session.config['config_file'])[self.round_number - 1]['reward_from_experimenter']
+
+    def feedback_cost(self):
+        return parse_config(self.session.config['config_file'])[self.round_number - 1]['feedback_cost']
+
+    def reward(self):
+        return parse_config(self.session.config['config_file'])[self.round_number - 1]['reward']
 
 
 class Group(BaseGroup):
-    reward_amount = models.CurrencyField(
-        choices=[
-            [c(0), 'No'],
-            [Constants.reward, 'Yes'],
-        ],
-        widget=widgets.RadioSelect
-    )
 
-    invest_amount = models.CurrencyField(
+    def num_rounds(self):
+        return len(parse_config(self.session.config['config_file']))
+
+    def current_reward(self):
+        return self.subsession.reward()
+
+    reward_amount = models.IntegerField()
+
+    invest_amount = models.IntegerField(
         choices=[
-            [c(0), 'No'],
+            [0, 'No'],
             [Constants.endowment, 'Yes'],
         ],
         widget=widgets.RadioSelect
     )
 
-    quality_amount = models.CurrencyField()
+    quality_amount = models.IntegerField()
 
     feedback_choice = models.BooleanField(
         choices=[
@@ -68,7 +86,7 @@ class Group(BaseGroup):
     def set_payoffs(self):
         p1 = self.get_player_by_id(1)
         p2 = self.get_player_by_id(2)
-        if self.invest_amount == c(0):
+        if self.invest_amount == 0:
             p1.payoff = Constants.endowment
             p2.payoff = Constants.endowment
         elif self.feedback_choice == False:
@@ -76,7 +94,7 @@ class Group(BaseGroup):
             p2.payoff = Constants.endowment - self.invest_amount + self.quality_amount * Constants.multiplier
         else:
             p1.payoff = Constants.endowment + self.invest_amount - self.quality_amount - self.reward_amount
-            p2.payoff = Constants.endowment - self.invest_amount + self.quality_amount * Constants.multiplier - Constants.feedback_cost + self.reward_amount
+            p2.payoff = Constants.endowment - self.invest_amount + self.quality_amount * Constants.multiplier - self.subsession.feedback_cost() + self.reward_amount
 
     def current_reputation(self):
         p1 = self.get_player_by_id(1)
@@ -90,6 +108,7 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
+
     current_reputation = models.IntegerField(initial=0)
 
     def role(self):
