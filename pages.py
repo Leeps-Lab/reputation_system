@@ -21,7 +21,7 @@ class SellerReward(Page):
     def vars_for_template(self):
         return {
             'player_in_previous_rounds': self.player.in_previous_rounds(),
-            'previous_round': self.round_number - 1
+            'player_in_block': self.player.in_rounds(1+10*(self.subsession.block()-1), self.round_number),
         }
 
     def reward_amount_choices(self):
@@ -40,7 +40,7 @@ class BuyerSend(Page):
     def vars_for_template(self):
         return {
             'partner_in_previous_rounds': self.player.get_partner().in_previous_rounds(),
-            'previous_round': self.round_number - 1
+            'partner_in_block': self.player.get_partner().in_rounds(1+10*(self.subsession.block()-1), self.round_number),
         }
 
 
@@ -54,11 +54,7 @@ class SellerSendBack(Page):
         return self.player.id_in_group == 1 and self.group.invest_amount != 0 and self.round_number <= self.group.num_rounds()
 
     def quality_amount_choices(self):
-        return range(
-            0,
-            self.group.invest_amount,
-            1
-        )
+        return range(0, self.group.invest_amount + 1, 1)
 
 
 class BuyerFeedback(Page):

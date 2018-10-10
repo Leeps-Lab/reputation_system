@@ -27,6 +27,7 @@ def parse_config(config_file):
     rounds = []
     for row in rows:
         rounds.append({
+            'block': int(row['block']),
             'reward_from_experimenter': int(row['reward_from_experimenter']),
             'feedback_cost': int(row['feedback_cost']),
             'reward': int(row['reward'])
@@ -38,6 +39,9 @@ class Subsession(BaseSubsession):
 
     def creating_session(self):
         self.group_randomly(fixed_id_in_group=True)
+
+    def block(self):
+        return parse_config(self.session.config['config_file'])[self.round_number - 1]['block']
 
     def reward_from_experimenter(self):
         return parse_config(self.session.config['config_file'])[self.round_number - 1]['reward_from_experimenter']

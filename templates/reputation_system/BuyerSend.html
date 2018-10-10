@@ -8,7 +8,7 @@
 {% block content %}
 
     <p>
-    You are Player B. In this stage, you need to decide whether to send your endowment {{ Constants.endowment }} to Player A. The cost of leaving feedback in current period is {{ subsession.feedback_cost }}.
+    You are Player B. This is Block {{ subsession.block }}. In this stage, you need to decide whether to send your endowment {{ Constants.endowment }} to Player A. The cost of leaving feedback in current round is {{ subsession.feedback_cost }}.
     </p>
 
     {% if subsession.reward_from_experimenter == 1 %}
@@ -23,23 +23,21 @@
 
     {% formfield group.invest_amount label="Do you want to send your endowment to Player A?"  %}
 
-    {% if subsession.round_number > 1 %}
-        <h6>Player A's Reputation History</h6>
-        <table class="table">
-            <tr>
-                <th>Round</th>
-                <th>Reputation</th>
-            </tr>
-            {% for p in partner_in_previous_rounds %}
-                {% if  p.current_reputation != 0 %}
+    <h6>Player A's Reputation History</h6>
+    <table class="table">
+        <tr>
+            <th>Round</th>
+            <th>Reputation</th>
+        </tr>
+        {% for p in partner_in_block %}
+            {% if  p.current_reputation != 0 %}
                 <tr>
                     <td>{{ p.round_number }}</td>
                     <td>{{ p.current_reputation }}</td>
                 </tr>
-                {% endif %}
-            {% endfor %}
-        </table>
-    {% endif %}
+            {% endif %}
+        {% endfor %}
+     </table>
 
     {% next_button %}
 
