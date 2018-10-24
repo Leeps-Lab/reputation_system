@@ -13,7 +13,7 @@ class SellerReward(Page):
     form_model = 'group'
     form_fields = ['reward_amount']
 
-    timeout_seconds = 30
+    timeout_seconds = 40
 
     def is_displayed(self):
         return self.player.id_in_group == 1 and self.round_number <= self.group.num_rounds()
@@ -61,7 +61,7 @@ class BuyerFeedback(Page):
     form_model = 'group'
     form_fields = ['feedback_choice', 'feedback_amount']
 
-    timeout_seconds = 45
+    timeout_seconds = 40
     timeout_submission = {'feedback_amount': 4}
 
     def is_displayed(self):
