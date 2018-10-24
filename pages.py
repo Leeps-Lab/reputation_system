@@ -54,7 +54,7 @@ class SellerSendBack(Page):
         return self.player.id_in_group == 1 and self.group.invest_amount != 0 and self.round_number <= self.group.num_rounds()
 
     def quality_amount_choices(self):
-        return range(0, self.group.invest_amount + 1, 1)
+        return range(0, int(self.group.invest_amount) + 1, 1)
 
 
 class BuyerFeedback(Page):
