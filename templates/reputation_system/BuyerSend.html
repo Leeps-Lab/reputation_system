@@ -11,6 +11,7 @@
     You are Player B. This is Block {{ subsession.block }}. In this stage, you need to decide whether to send your endowment {{ Constants.endowment }} to Player A. The cost of leaving feedback in current round is {{ subsession.feedback_cost }}.
     </p>
 
+<!--
     {% if subsession.reward_from_experimenter == 1 %}
         <p>
         <b> The experimenter provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
@@ -20,6 +21,7 @@
         <b> Player A provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
         </p>
     {% endif %}
+-->
 
     {% formfield group.invest_amount label="Do you want to send your endowment to Player A?"  %}
 

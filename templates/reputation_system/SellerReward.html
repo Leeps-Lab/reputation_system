@@ -8,9 +8,10 @@
 {% block content %}
 
     <p>
-    You are Player A. This is Block {{ subsession.block }}. In this stage, please decide whether you want to offer the reward for feedback to Player B.
+    You are Player A. This is Block {{ subsession.block }}. In this stage, please review your current reputation history and press next.
     </p>
 
+<!--
     <p>
     The amount of possible reward in current round is {{ subsession.reward }}. Player B will know the amount of reward you choose before she makes her decision.
     The cost for Player B to leave feedback in current round is {{ subsession.feedback_cost }}.
@@ -29,8 +30,7 @@
         Similarly, if you choose not to offer reward, Player B will receive the message "There is no reward for feedback from Player A". </b>
         </p>
     {% endif %}
-
-    {% formfield group.reward_amount label="How much reward do you want to offer for feedback to Player B?"  %}
+-->
 
     <h6>Your Reputation History</h6>
     <table class="table">

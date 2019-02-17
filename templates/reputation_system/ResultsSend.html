@@ -9,7 +9,6 @@
     {% if player.id_in_group == 1 %}
         <p>
             As Player A,
-            You provide reward {{ group.reward_amount }} for feedback.
             You receive {{ group.invest_amount }} from Player B and send back {{ group.quality_amount }} ({{ tripled_amount }} after tripled).
             {% if group.feedback_choice == True %}
                 You receive the feedback of {{ group.feedback_amount }}.
@@ -20,7 +19,6 @@
     {% else %}
         <p>
             As Player B,
-            Player A provide reward {{ group.reward_amount }} for your feedback.
             You send {{ group.invest_amount }} to Player A and receive {{ group.quality_amount }} ({{ tripled_amount }} after tripled) in return.
             {% if group.feedback_choice == True %}
                 You choose to leave feedback of {{ group.feedback_amount }}.
@@ -32,7 +30,7 @@
     {% endif %}
 
     <p>
-    Your total payoff is {{ player.payoff }} in this round. Your cumulative payoff is {{ cumulative_payoff }}.
+    Your total payoff is {{ player.payoff }} in this round.
     </p>
 
     {% next_button %}

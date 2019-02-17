@@ -9,10 +9,11 @@
 
     <p>
     In the previous stage, Player A sent back {{ group.quality_amount }} to you. So you receive tripled amount {{ tripled_amount }}.
-    In this stage, you need to choose whether to leave a costly feedback so other players will have more information about Player A in the future rounds.
+    In this stage, you need to choose whether to leave a feedback so other players will have more information about Player A in the future rounds.
     The cost of leaving feedback in current round is {{ subsession.feedback_cost }}.
     </p>
 
+<!--
     {% if subsession.reward_from_experimenter == 1 %}
         <p>
         <b> The experimenter provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
@@ -22,6 +23,7 @@
         <b> Player A provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
         </p>
     {% endif %}
+-->
 
     <p>
     The feedback works as a 7-point likert scale. From left to right:
@@ -32,10 +34,10 @@
     </p>
 
     <p>
-    If you do now want to leave the costly feedback, please still choose your level of satisfaction, though none of the players will have the chance to see it.
+    If you do not want to leave the feedback, please still choose your level of satisfaction, though none of the players will have the chance to see it.
     </p>
 
-    {% formfield group.feedback_choice label="Do you want to leave a costly feedback?"  %}
+    {% formfield group.feedback_choice label="Do you want to leave the feedback?"  %}
 
     {% formfield group.feedback_amount label="What kind of feedback do you want to leave for Player A?"  %}
 

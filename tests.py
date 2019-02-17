@@ -12,7 +12,7 @@ class PlayerBot(Bot):
             yield (pages.WelcomePage)
 
         if self.player.id_in_group == 1:
-            yield Submission(pages.SellerReward, {'reward_amount': random.choice([0, self.subsession.reward()])}, timeout_happened=True)
+            yield (pages.SellerReward)
             yield Submission(pages.SellerSendBack, {'quality_amount': random.randint(0, self.group.invest_amount)}, timeout_happened=True)
         else:
             yield Submission(pages.BuyerSend, {'invest_amount': Constants.endowment}, timeout_happened=True)
