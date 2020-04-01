@@ -1,0 +1,40 @@
+{% extends "global/Page.html" %}
+{% load otree static %}
+
+{% block title %}
+    Instruction
+{% endblock %}
+
+{% block content %}
+
+    <p>
+    Before player A make decision at stage 3, they can observe all player B's past choices of X and Y.
+    Each player B's history is a list of (X/Y/N + price).
+        <br>
+    The first letter shows player B's choice, where X and Y represents the choice, respectively.
+    When you see an N, it means that player B has no history in that previous round:
+    either because player B chooses O at stage 1 or no player A chooses that player B at stage 3.
+    Either way, an N shows that player B did not make the choice in that round.
+        <br>
+    The number at the same round shows player B's choice of price.
+    </p>
+
+    <p>
+    Payoff is calculated as follows:
+        <br>
+    For player A: you will get {{ Constants.e_b }} if you choose 0 at Stage 3 or when all player B choose O at Stage 1.
+    If you choose to interact with a player B, you will receive {{ Constants.u_l }} minus player B's price if that player B chooses X
+    and {{ Constants.u_h }} minus player B's price if she chooses Y.
+        <br>
+    For player B: you will get {{ Constants.e_s }} if you choose O at Stage 1. You will get 0 if you chooses E at Stage 1 but no player A interacts with you.
+    If one or more player A choose to interact with you, for each player A, you will get the price you choose at Stage 2 minus {{ Constants.c_l }} if you chooses X
+    and your price minus {{ Constants.c_h }} if you chooses Y.
+    Notice that if you have multiple player A interacting with you, your payoff will be multiplied by the number of player A you interact with.
+        <br>
+    </p>
+
+    {% next_button %}
+
+{% endblock %}
+
+

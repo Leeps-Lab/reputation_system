@@ -2,29 +2,29 @@
 {% load otree static %}
 
 {% block title %}
-    Stage 3: Player A's sending back option
+    Stage 4: Player B's choice of X and Y.
 {% endblock %}
 
 {% block content %}
 
     <p>
-    In the previous stage, Player B sent {{ group.invest_amount }} to you.
-    In this stage, you need to decide how much you want to send back to Player B. For each point you send back, Player B will receive triple points.
+    At Stage 2, the choice of your price is {{ player.decision_price }}
     </p>
 
-<!--
-    {% if subsession.reward_from_experimenter == 1 %}
-        <p>
-        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. <b> The reward will be sent to Player B in the Experimenter's name. </b>
-        </p>
-    {% else %}
-        <p>
-        In stage 1, you provided {{ group.reward_amount }} for Player B's feedback. <b> Player B knows that the reward option is decided by you. </b>
-        </p>
-    {% endif %}
--->
+    <p>
+    At this stage, please choose between X and Y.
+    </p>
 
-    {% formfield group.quality_amount label="How much points do you want to send back to Player B?"  %}
+    {% formfield player.decision_quality label="Please make your choice." %}
+
+        <p>
+    Your payoff in this round is calculated as follows:
+        <br>
+    You will get {{ Constants.e_s }} if you choose O at Stage 1. You will get 0 if you chooses E at Stage 1 but no player A interacts with you.
+    If one or more player A choose to interact with you, for each player A, you will get the price you choose at Stage 2 minus {{ Constants.c_l }} if you chooses X
+    and your price minus {{ Constants.c_h }} if you chooses Y.
+    Notice that if you have multiple player A interacting with you, your payoff will be multiplied by the number of player A you interact with.
+    </p>
 
     {% next_button %}
 

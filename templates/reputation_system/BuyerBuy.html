@@ -2,44 +2,26 @@
 {% load otree static %}
 
 {% block title %}
-    Stage 2: Player B's sending option
+    Stage 3: Player A's choice of interaction.
 {% endblock %}
 
 {% block content %}
 
     <p>
-    You are Player B. This is Block {{ subsession.block }}. In this stage, you need to decide whether to send your endowment {{ Constants.endowment }} to Player A. The cost of leaving feedback in current round is {{ subsession.feedback_cost }}.
+    You are player A. An this stage, you need to decide which player B you want to interact with.
+    Please pick the player B's ID or 0 if you do not want to interact with anyone.
+    You can observe player B's history and their current price before you make your decision.
     </p>
 
-<!--
-    {% if subsession.reward_from_experimenter == 1 %}
-        <p>
-        <b> The experimenter provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
-        </p>
-    {% else %}
-        <p>
-        <b> Player A provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
-        </p>
-    {% endif %}
--->
+    {% formfield player.decision_buy label="Please make your choice." %}
 
-    {% formfield group.invest_amount label="Do you want to send your endowment to Player A?"  %}
-
-    <h6>Player A's Reputation History</h6>
-    <table class="table">
-        <tr>
-            <th>Round</th>
-            <th>Reputation</th>
-        </tr>
-        {% for p in partner_in_block %}
-            {% if  p.current_reputation != 0 %}
-                <tr>
-                    <td>{{ p.round_number }}</td>
-                    <td>{{ p.current_reputation }}</td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-     </table>
+    <p>
+    Your payoff in this round is calculated as follows:
+        <br>
+    You will get {{ Constants.e_b }} if you choose 0 at Stage 3 or when all player B choose O at Stage 1.
+    If you choose to interact with a player B, you will receive {{ Constants.u_l }} minus player B's price if that player B chooses X
+    and {{ Constants.u_h }} minus player B's price if she chooses Y.
+    </p>
 
     {% next_button %}
 

@@ -2,44 +2,25 @@
 {% load otree static %}
 
 {% block title %}
-    Stage 4: Player B's feedback option
+    Stage 2: Player B's choice of price.
 {% endblock %}
 
 {% block content %}
 
     <p>
-    In the previous stage, Player A sent back {{ group.quality_amount }} to you. So you receive tripled amount {{ tripled_amount }}.
-    In this stage, you need to choose whether to leave a feedback so other players will have more information about Player A in the future rounds.
-    The cost of leaving feedback in current round is {{ subsession.feedback_cost }}.
+    At this stage, please choose your price. Your price should be an integer between {{ min_price }} and {{ max_price }}.
     </p>
 
-<!--
-    {% if subsession.reward_from_experimenter == 1 %}
+    {% formfield player.decision_price label="Please make your choice." %}
+
         <p>
-        <b> The experimenter provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
-        </p>
-    {% else %}
-        <p>
-        <b> Player A provides {{ group.reward_amount }} for your feedback. </b> The point will be transferred to you if you decide to send your endowment and leave feedback.
-        </p>
-    {% endif %}
--->
-
-    <p>
-    The feedback works as a 7-point likert scale. From left to right:
+    Your payoff in this round is calculated as follows:
+        <br>
+    You will get {{ Constants.e_s }} if you choose O at Stage 1. You will get 0 if you chooses E at Stage 1 but no player A interacts with you.
+    If one or more player A choose to interact with you, for each player A, you will get the price you choose at Stage 2 minus {{ Constants.c_l }} if you chooses X
+    and your price minus {{ Constants.c_h }} if you chooses Y.
+    Notice that if you have multiple player A interacting with you, your payoff will be multiplied by the number of player A you interact with.
     </p>
-
-    <p>
-    1-strongly dissatisfied, 2-dissatisfied, 3-slightly dissatisfied, 4-neutral, 5-slightly satisfied, 6-satisfied, 7-strongly satisfied.
-    </p>
-
-    <p>
-    If you do not want to leave the feedback, please still choose your level of satisfaction, though none of the players will have the chance to see it.
-    </p>
-
-    {% formfield group.feedback_choice label="Do you want to leave the feedback?"  %}
-
-    {% formfield group.feedback_amount label="What kind of feedback do you want to leave for Player A?"  %}
 
     {% next_button %}
 

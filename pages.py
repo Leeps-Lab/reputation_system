@@ -9,65 +9,77 @@ class Welcome(Page):
         return self.round_number == 1
 
 
-class Instruction(Page):
+class Instruction1(Page):
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+
+class Instruction2(Page):
+
+    def is_displayed(self):
+        return self.round_number == 1
+
+
+class ShuffleWaitPage(WaitPage):
+
+    wait_for_all_groups = True
 
     def is_displayed(self):
         return self.round_number == 1
 
 
 class SellerEntry(Page):
-    form_model = 'group'
+    form_model = 'player'
     form_fields = ['decision_entry']
 
-    timeout_seconds = 10
+    #timeout_seconds = 10
 
     def is_displayed(self):
-        return self.player.role == 'player2' and self.round_number <= self.Constants.num_rounds
+        return self.player.role() == 'seller' and self.round_number <= self.subsession.num_of_rounds()
 
 
 class SellerPrice(Page):
-    form_model = 'group'
+    form_model = 'player'
     form_fields = ['decision_price']
 
-    timeout_seconds = 20
+    #timeout_seconds = 20
 
     def is_displayed(self):
-        return self.player.role == 'player2' and self.round_number <= self.Constants.num_rounds
+        return self.player.role() == 'seller' and self.round_number <= self.subsession.num_of_rounds()
+
+    def vars_for_template(self):
+        return {
+            'max_price': Constants.u_h - Constants.e_b,
+            'min_price': Constants.u_l - Constants.e_b
+        }
 
 
 class BuyerBuy(Page):
-    form_model = 'group'
+    form_model = 'player'
     form_fields = ['decision_buy']
 
-    timeout_seconds = 20
+    #timeout_seconds = 20
 
     def is_displayed(self):
-        return self.player.role == 'player1' and self.round_number <= self.Constants.num_rounds
-
-    '''
-    def vars_for_template(self):
-        return {
-            'player_in_previous_rounds': self.player.in_previous_rounds(),
-            'player_in_block': self.player.in_rounds(1 + Constants.round_in_block*(self.subsession.block()-1), self.round_number),
-        }
-    '''
+        return self.player.role() == 'buyer' and self.round_number <= self.subsession.num_of_rounds()
 
 
 class SellerQuality(Page):
-    form_model = 'group'
+    form_model = 'player'
     form_fields = ['decision_quality']
 
-    timeout_seconds = 10
+    #timeout_seconds = 10
 
     def is_displayed(self):
-        return self.player.role == 'player2' and self.round_number <= self.Constants.num_rounds
+        return self.player.role() == 'seller' and self.round_number <= self.subsession.num_of_rounds()
 
 
 class Results(Page):
-    timeout_seconds = 10
+    #timeout_seconds = 10
 
     def is_displayed(self):
-        return self.group.invest_amount != 0 and self.round_number <= self.Constants.num_rounds
+        return self.round_number <= self.subsession.num_of_rounds()
 
     def vars_for_template(self):
         return {
@@ -75,51 +87,34 @@ class Results(Page):
         }
 
 
-class PayoffWaitPage(WaitPage):
+class ResultsWaitPage(WaitPage):
 
     def after_all_players_arrive(self):
         self.group.set_payoffs()
 
     def is_displayed(self):
-        return self.round_number <= self.Constants.num_rounds
+        return self.round_number <= self.subsession.num_of_rounds()
 
 
-class AllGroupsWaitPage(WaitPage):
-
-    wait_for_all_groups = True
+class PlayerWaitPage(WaitPage):
 
     def is_displayed(self):
-        return self.round_number <= self.Constants.num_rounds
-
-
-class WaitPage(WaitPage):
-
-    def is_displayed(self):
-        return self.round_number <= self.Constants.num_rounds
-
-
-class ShuffleWaitPage(WaitPage):
-
-    wait_for_all_groups = True
-    after_all_players_arrive = 'do_my_shuffle'
-
-    def is_displayed(self):
-        return self.round_number == 1
+        return self.round_number <= self.subsession.num_of_rounds()
 
 
 page_sequence = [
     Welcome,
-    Instruction,
+    Instruction1,
+    Instruction2,
     ShuffleWaitPage,
     SellerEntry,
-    WaitPage,
+    PlayerWaitPage,
     SellerPrice,
-    WaitPage,
+    PlayerWaitPage,
     BuyerBuy,
-    WaitPage,
+    PlayerWaitPage,
     SellerQuality,
-    WaitPage,
-    PayoffWaitPage,
-    AllGroupsWaitPage,
+    PlayerWaitPage,
+    ResultsWaitPage,
     Results
 ]

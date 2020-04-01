@@ -6,32 +6,18 @@
 {% endblock %}
 
 {% block content %}
-    {% if player.id_in_group == 1 %}
+    {% if player.role == 'buyer' %}
         <p>
             As Player A,
-            You receive {{ group.invest_amount }} from Player B and send back {{ group.quality_amount }} ({{ tripled_amount }} after tripled).
-            {% if group.feedback_choice == True %}
-                You receive the feedback of {{ group.feedback_amount }}.
-            {% else %}
-                Player B does not leave feedback.
-            {% endif %}
+            You receive {{ player.payoff }} in this round. Your cumulative payoff in this experiment is {{ cumulative.payoff }}.
         </p>
     {% else %}
         <p>
             As Player B,
-            You send {{ group.invest_amount }} to Player A and receive {{ group.quality_amount }} ({{ tripled_amount }} after tripled) in return.
-            {% if group.feedback_choice == True %}
-                You choose to leave feedback of {{ group.feedback_amount }}.
-            {% else %}
-                You choose not to leave feedback.
-            {% endif %}
+            You receive {{ player.payoff }} in this round. Your cumulative payoff in this experiment is {{ cumulative.payoff }}.
         </p>
 
     {% endif %}
-
-    <p>
-    Your total payoff is {{ player.payoff }} in this round.
-    </p>
 
     {% next_button %}
 

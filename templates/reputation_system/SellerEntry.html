@@ -2,51 +2,25 @@
 {% load otree static %}
 
 {% block title %}
-    Stage 1: Player A's reward option
+    Stage 1: Player B's choice of O and E.
 {% endblock %}
 
 {% block content %}
 
     <p>
-    You are Player A. This is Block {{ subsession.block }}. In this stage, please review your current reputation history and press next.
+    You are Player B. At this stage, please choose between O and E.
     </p>
 
-<!--
+    {% formfield player.decision_entry label="Please make your choice." %}
+
     <p>
-    The amount of possible reward in current round is {{ subsession.reward }}. Player B will know the amount of reward you choose before she makes her decision.
-    The cost for Player B to leave feedback in current round is {{ subsession.feedback_cost }}.
+    Your payoff in this round is calculated as follows:
+        <br>
+    You will get {{ Constants.e_s }} if you choose O at Stage 1. You will get 0 if you chooses E at Stage 1 but no player A interacts with you.
+    If one or more player A choose to interact with you, for each player A, you will get the price you choose at Stage 2 minus {{ Constants.c_l }} if you chooses X
+    and your price minus {{ Constants.c_h }} if you chooses Y.
+    Notice that if you have multiple player A interacting with you, your payoff will be multiplied by the number of player A you interact with.
     </p>
-
-    {% if subsession.reward_from_experimenter == 1 %}
-        <p>
-        If you decide to offer the reward, <b> the Experimenter will first collect reward from Player A who are willing to offer the reward and send it to Player B who decide to send endowment and leave feedback.
-        It works as the following: the reward will be sent in the Experimenter's name.
-        Player B will not know your choice of offering the reward but they can get the reward only when you decide to offer it. </b>
-        </p>
-    {% else %}
-        <p>
-        If you decide to offer the reward, Player B will receive your transfer if she decides to send her endowment to you and leave feedback.
-        <b> Player B will receive the message "The reward is from Player A".
-        Similarly, if you choose not to offer reward, Player B will receive the message "There is no reward for feedback from Player A". </b>
-        </p>
-    {% endif %}
--->
-
-    <h6>Your Reputation History</h6>
-    <table class="table">
-        <tr>
-            <th>Round</th>
-            <th>Reputation</th>
-        </tr>
-        {% for p in player_in_block %}
-            {% if  p.current_reputation != 0 %}
-                <tr>
-                    <td>{{ p.round_number }}</td>
-                    <td>{{ p.current_reputation }}</td>
-                </tr>
-            {% endif %}
-        {% endfor %}
-    </table>
 
     {% next_button %}
 
