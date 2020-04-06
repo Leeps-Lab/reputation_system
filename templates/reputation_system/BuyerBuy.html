@@ -22,18 +22,24 @@
         {% if p.decision_entry == 1 %}
             player B (ID: {{ p.id_in_group }})'s current price is: {{ p.decision_price }}.
             player B (ID: {{ p.id_in_group }})'s history is: <br>
-            <table>
+            <table border="1">
             <tr>
-                <th>Round</th>
-                <th> {{ p.history_of_seller.0 }}</th>
+                <td>Round</td>
+                {% for i in p.history_of_seller %}
+                <td>{{ i.round_number }}</td>
+                {% endfor %}
             </tr>
             <tr>
-                <th>Product</th>
-                <th> {{ p.history_of_seller.1 }}</th>
+                <td>Product</td>
+                {% for i in p.history_of_seller %}
+	            <td>{{ i.choice }}</td>
+                {% endfor %}
             </tr>
             <tr>
-                <th>Price</th>
-                <th> {{ p.history_of_seller.2 }}</th>
+                <td>Price</td>
+                {% for i in p.history_of_seller %}
+	            <td>{{ i.price }}</td>
+                {% endfor %}
             </tr>
             </table>
         {% endif %}

@@ -18,8 +18,8 @@ fix_price shows the treatment of fixed price vs self-determined price.
 class Constants(BaseConstants):
 
     name_in_url = 'reputation_game'
-    players_per_group = 4
     num_rounds = 15
+    players_per_group = 4
     mid_round = 6
     c_l = 5
     c_h = 30
@@ -28,7 +28,7 @@ class Constants(BaseConstants):
     p_default = 55
     e_b = 20
     e_s = 10
-    seq_entry = 1
+    seq_entry = 0
     fix_price = 0
 
 
@@ -83,12 +83,6 @@ class Group(BaseGroup):
         seller_in_market = [p for p in players if p.decision_entry == 1]
         return len(seller_in_market)
 
-    def round_index(self):
-        round_index = []
-        length = self.round_number - 1
-        for i in range(0, length):
-            round_index.append(i)
-
 
 class Player(BasePlayer):
 
@@ -115,22 +109,28 @@ class Player(BasePlayer):
         return num_of_trade
 
     def history_of_seller(self):
+        history = []
         current = self.round_number
-        round_num = []
-        choices = []
-        price = []
         for i in range(1, current):
-            round_num.append(i)
             if self.in_round(i).num_of_trade() > 0 and self.in_round(i).decision_quality == 1:
-                choices.append('Y')
-                price.append(self.in_round(i).decision_price)
+                history.append({
+                'round_number': i,
+                'choice': 'Y',
+                'price': self.in_round(i).decision_price,
+                })
             elif self.in_round(i).num_of_trade() > 0 and self.in_round(i).decision_quality == 0:
-                choices.append('X')
-                price.append(self.in_round(i).decision_price)
+                history.append({
+                'round_number': i,
+                'choice': 'X',
+                'price': self.in_round(i).decision_price,
+                })
             else:
-                choices.append('N')
-                price.append('N')
-        return [round_num, choices, price]
+                history.append({
+                'round_number': i,
+                'choice': 'N',
+                'price': 'N',
+                })
+        return history
 
     decision_entry = models.IntegerField(
         initial=0,
