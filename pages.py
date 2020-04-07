@@ -32,7 +32,7 @@ class ShuffleWaitPage(WaitPage):
     wait_for_all_groups = True
 
     def is_displayed(self):
-        return self.round_number <= Constants.num_rounds
+        return self.round_number <= self.subsession.num_rounds
 
 
 class SellerEntry(Page):
@@ -43,10 +43,10 @@ class SellerEntry(Page):
 
     if Constants.seq_entry == 0:
         def is_displayed(self):
-            return self.player.role() == 'seller' and self.round_number <= Constants.num_rounds
+            return self.player.role() == 'seller' and self.round_number <= self.subsession.num_rounds
     else:
         def is_displayed(self):
-            return self.round_number <= Constants.num_rounds \
+            return self.round_number <= self.subsession.num_rounds \
                    and (self.player.role2() == 'incumbent' or (self.player.role2() == 'entrant' and self.round_number >= Constants.mid_round) )
 
 
@@ -58,10 +58,10 @@ class SellerPrice(Page):
 
     if Constants.seq_entry == 0:
         def is_displayed(self):
-            return self.player.role() == 'seller' and self.round_number <= Constants.num_rounds and self.player.decision_entry == 1
+            return self.player.role() == 'seller' and self.round_number <= self.subsession.num_rounds and self.player.decision_entry == 1
     else:
         def is_displayed(self):
-            return self.round_number <= Constants.num_rounds and self.player.decision_entry == 1 \
+            return self.round_number <= self.subsession.num_rounds and self.player.decision_entry == 1 \
                    and (self.player.role2() == 'incumbent' or (self.player.role2() == 'entrant' and self.round_number >= Constants.mid_round) )
 
     def vars_for_template(self):
@@ -78,7 +78,7 @@ class BuyerBuy(Page):
     #timeout_seconds = 20
 
     def is_displayed(self):
-        return self.player.role() == 'buyer' and self.round_number <= Constants.num_rounds
+        return self.player.role() == 'buyer' and self.round_number <= self.subsession.num_rounds
 
 
 class SellerQuality(Page):
@@ -89,10 +89,10 @@ class SellerQuality(Page):
 
     if Constants.seq_entry == 0:
         def is_displayed(self):
-            return self.player.role() == 'seller' and self.round_number <= Constants.num_rounds and self.player.decision_entry == 1 and self.player.num_of_trade() > 0
+            return self.player.role() == 'seller' and self.round_number <= self.subsession.num_rounds and self.player.decision_entry == 1 and self.player.num_of_trade() > 0
     else:
         def is_displayed(self):
-            return self.round_number <= Constants.num_rounds and self.player.decision_entry == 1 and self.player.num_of_trade() > 0 \
+            return self.round_number <= self.subsession.num_rounds and self.player.decision_entry == 1 and self.player.num_of_trade() > 0 \
                    and (self.player.role2() == 'incumbent' or (self.player.role2() == 'entrant' and self.round_number >= Constants.mid_round) )
 
 
@@ -101,7 +101,7 @@ class Results(Page):
     #timeout_seconds = 10
 
     def is_displayed(self):
-        return self.round_number <= Constants.num_rounds
+        return self.round_number <= self.subsession.num_rounds
 
     def vars_for_template(self):
         return {
@@ -115,13 +115,13 @@ class ResultsWaitPage(WaitPage):
         self.group.set_payoffs()
 
     def is_displayed(self):
-        return self.round_number <= Constants.num_rounds
+        return self.round_number <= self.subsession.num_rounds
 
 
 class PlayerWaitPage(WaitPage):
 
     def is_displayed(self):
-        return self.round_number <= Constants.num_rounds
+        return self.round_number <= self.subsession.num_rounds
 
 
 page_sequence = [
