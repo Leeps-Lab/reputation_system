@@ -59,7 +59,7 @@ class Subsession(BaseSubsession):
             self.set_group_matrix(group_matrix)
         else:
             self.group_like_round(1)
-        self.num_rounds = random.randint(12, 15)
+        self.num_rounds = random.randint(12, 16)
 
 
 class Group(BaseGroup):
